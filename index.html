@@ -1,384 +1,173 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Final Exam Quiz Reviewer</title>
+<title>Quiz Reviewer</title>
 <style>
-:root{--bg:#f4f5f8;--panel:#fff;--raised:#eef0f5;--line:#d8dce6;--text:#1c2030;--muted:#5d6579;--ok:#e2f5ea;--okb:#2e9e5b;--no:#fbe6e4;--nob:#d4493f;--mono:ui-monospace,Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",sans-serif;--acc:#2a7de1;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161c;--panel:#1c1f28;--raised:#262a36;--line:#343a4a;--text:#e6e9f2;--muted:#8f97ab;--ok:#1f4a33;--no:#4d2a2a}}
-:root[data-theme="dark"]{--bg:#14161c;--panel:#1c1f28;--raised:#262a36;--line:#343a4a;--text:#e6e9f2;--muted:#8f97ab;--ok:#1f4a33;--no:#4d2a2a}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;justify-content:center;padding:28px 16px 60px}
-.wrap{width:100%;max-width:700px}
-h1{font-family:var(--mono);font-size:20px;margin:0 0 6px}
-.sub{color:var(--muted);font-size:14.5px;margin:0 0 22px;line-height:1.5}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:24px}
-.subj{display:block;width:100%;text-align:left;background:var(--raised);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:8px;padding:16px 18px;margin-bottom:12px;cursor:pointer;color:var(--text);font-family:var(--sans)}
-.subj:hover{border-color:var(--c)}
-.subj b{font-family:var(--mono);font-size:16px;display:block;margin-bottom:4px}
-.subj span{color:var(--muted);font-size:13.5px}
-button.p,button.g{font-family:var(--mono);font-size:14px;font-weight:700;padding:12px 20px;border-radius:8px;cursor:pointer;border:1px solid var(--acc)}
-button.p{background:var(--acc);color:#fff}
-button.g{background:transparent;color:var(--text);border-color:var(--line)}
-button:disabled{opacity:.4;cursor:not-allowed}
-.row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:10px}
-.bar{height:5px;background:var(--raised);border-radius:4px;overflow:hidden;margin-bottom:20px}
-.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
-.qt{font-size:17px;line-height:1.5;margin:0 0 18px}
-.opt{display:flex;gap:12px;background:var(--raised);border:1px solid var(--line);border-radius:8px;padding:13px 15px;margin-bottom:10px;cursor:pointer;font-size:14.5px;line-height:1.45}
-.opt:hover:not(.lk){border-color:var(--acc)}
-.opt b{font-family:var(--mono);color:var(--muted)}
-.opt.ok{background:var(--ok);border-color:var(--okb)}
-.opt.no{background:var(--no);border-color:var(--nob)}
-.opt.lk{cursor:default}
-.fb{font-family:var(--mono);font-size:13px;min-height:20px;margin:6px 0 16px;color:var(--muted)}
-.nav{display:flex;justify-content:space-between;gap:10px}
-.big{font-family:var(--mono);font-size:52px;font-weight:800;color:var(--acc);text-align:center;margin:4px 0}
-.cen{text-align:center;color:var(--muted);font-family:var(--mono);font-size:13.5px;margin-bottom:18px}
-.miss{background:var(--raised);border:1px solid var(--line);border-radius:8px;padding:12px 16px;max-height:300px;overflow-y:auto;margin-bottom:20px;text-align:left}
-.miss div{padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.45}
-.miss div:last-child{border:0}
-.miss em{color:var(--okb);font-style:normal;font-family:var(--mono)}
-.hide{display:none}
-</style>
-</head>
-<body>
-<div class="wrap">
-<div id="menu">
-<h1>Final Exam Reviewer</h1>
-<p class="sub">Pick a subject. Questions and answer choices are reshuffled every attempt, and your score appears when you finish.</p>
-<div class="card" id="list"></div>
-</div>
-
-<div id="quiz" class="card hide">
-<div class="row"><span id="ct"></span><span id="sc"></span></div>
-<div class="bar"><i id="pg"></i></div>
-<p class="qt" id="qt"></p>
-<div id="ops"></div>
-<div class="fb" id="fb"></div>
-<div class="nav"><button class="g" onclick="toMenu()">Menu</button><button class="p" id="nx" onclick="next()" disabled>Next</button></div>
-</div>
-
-<div id="res" class="card hide">
-<div class="cen" id="rn"></div>
-<div class="big" id="pc"></div>
-<div class="cen" id="rs"></div>
-<div id="ms"></div>
-<div class="nav"><button class="g" onclick="toMenu()">Choose subject</button><button class="p" onclick="start(cur)">Retry quiz</button></div>
-</div>
-</div>
-
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1b1f2a;--mu:#6a7183;--ac:#3b5bdb;--bd:#dde1ec;--ok:#2b8a3e;--okb:#e6f6ea;--no:#c92a2a;--nob:#fdeaea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141c;--card:#1c202c;--tx:#eceef5;--mu:#9aa1b5;--ac:#7b93ff;--bd:#2e3446;--ok:#69db7c;--okb:#173222;--no:#ff8787;--nob:#3a1d1d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12141c;--card:#1c202c;--tx:#eceef5;--mu:#9aa1b5;--ac:#7b93ff;--bd:#2e3446;--ok:#69db7c;--okb:#173222;--no:#ff8787;--nob:#3a1d1d;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+main{max-width:640px;margin:0 auto;padding:24px 16px}
+h1{font-size:1.6rem;margin:8px 0 4px}p.sub{color:var(--mu);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:14px}
+button{font:inherit;cursor:pointer;color:var(--tx)}
+.subj{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:12px}
+.subj:hover{border-color:var(--ac)}.subj b{display:block;font-size:1.1rem}.subj span{color:var(--mu);font-size:.9rem}
+.bar{height:8px;background:var(--bd);border-radius:8px;overflow:hidden;margin:8px 0 18px}.bar i{display:block;height:100%;background:var(--ac)}
+.meta{display:flex;justify-content:space-between;color:var(--mu);font-size:.9rem}
+.q{font-size:1.15rem;font-weight:600;margin:0 0 16px;overflow-wrap:anywhere}
+.opt{display:block;width:100%;text-align:left;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;padding:12px 14px;margin-bottom:10px;overflow-wrap:anywhere}
+.opt:hover{border-color:var(--ac)}.opt.sel{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,var(--card))}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:12px 20px;font-weight:600}
+.btn:disabled{opacity:.4;cursor:not-allowed}.btn.alt{background:transparent;color:var(--ac);border:1.5px solid var(--ac)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.score{text-align:center}.score .n{font-size:3rem;font-weight:800;color:var(--ac)}
+.rv{border-left:4px solid var(--no);background:var(--nob);padding:10px 12px;border-radius:8px;margin-bottom:10px;overflow-wrap:anywhere;font-size:.95rem}
+.rv .g{color:var(--ok);font-weight:600}
+</style></head>
+<body><main id="app"></main>
 <script>
-// Each item: [question, correct answer, wrong, wrong, wrong]
-const SUBJECTS={
-NET101:{name:"NET101 – Networking 1",color:"#1f9d8a",q:[
-["Which device connects multiple devices in a LAN and forwards packets between them?","Switch","Modem","ISP","Cable"],
-["Which topology connects all devices to a single central cable?","Bus topology","Ring topology","Tree topology","Mesh topology"],
-["In which topology is each device connected to two others, forming a circular path?","Ring topology","Bus topology","Tree topology","Hybrid topology"],
-["Which network typically operates within 10 meters or less using Bluetooth?","PAN","LAN","MAN","WAN"],
-["Which network uses routers, public communication links and satellites over long distances?","WAN","PAN","LAN","MAN"],
-["Which network connects multiple LANs within a city?","MAN","PAN","WAN","LAN"],
-["Which topology is most affected if the main cable fails?","Bus topology","Mesh topology","Ring topology","Hybrid topology"],
-["Which topology needs the most cabling and has the highest installation cost?","Mesh topology","Bus topology","Ring topology","Tree topology"],
-["Which device connects a network to the Internet and directs packets between networks?","Router","Switch","Cable","Hub"],
-["Which device connects directly to the ISP line?","Modem","Switch","Cable","Repeater"],
-["Which protocol transfers files but lacks default encryption?","FTP","HTTPS","SMTP","SSL/TLS"],
-["Which protocol retrieves email while keeping it stored on the server?","IMAP","SMTP","FTP","VoIP"],
-["Which transport protocol ensures delivery using acknowledgments and retransmissions?","TCP","OSPF","SMTP","VoIP"],
-["Which security protocol secures HTTPS communication?","SSL/TLS","FTP","OSPF","SMTP"],
-["Which protocol sends email between mail servers?","SMTP","IMAP","FTP","TCP"],
-["Which protocol powers voice calling apps such as Zoom, Skype or Messenger?","VoIP","SMTP","FTP","OSPF"],
-["Which protocol lets routers dynamically find the best path within an Autonomous System?","OSPF","TCP","SMTP","IMAP"],
-["The 8-bit binary for decimal 192 is:","11000000","10101000","11100000","10000000"],
-["The 8-bit binary for decimal 172 is:","10101100","10101000","10110100","11001100"],
-["The 8-bit binary for decimal 99 is:","01100011","01011001","01100110","00110011"],
-["The binary octet 01111111 equals decimal:","127","126","128","255"],
-["The binary octet 11001000 equals decimal:","200","192","208","184"],
-["The 8-bit ASCII binary for the letter ‘K’ is:","01001011","01001101","01001001","01010111"],
-["The 8-bit ASCII binary for the symbol ‘#’ is:","00100011","00100010","00100101","00100100"],
-["A network that combines two or more different topologies is a:","Hybrid topology","Bus topology","Ring topology","Tree topology"],
-["Which network is usually the most secure by default?","PAN","WAN","MAN","Public Wi-Fi"],
-["A defining characteristic of a Personal Area Network is that it:","Operates within a range of a few meters","Spans a whole city","Spans several countries","Uses satellites"],
-["Which two devices are needed to access the Internet and connect multiple local devices?","Modem and Router","Switch and Cable","Modem and Cable","ISP and Switch"],
-["What is the function of a cable in a network setup?","Transmits data between devices","Assigns IP addresses","Connects to the ISP wirelessly","Encrypts all traffic"],
-["What does ISP refer to?","The company that provides your Internet connection","A type of router","A transport protocol","A cable standard"],
-["Which topology is hierarchical, with a central root node and branches?","Tree topology","Bus topology","Ring topology","Mesh topology"],
-["Who invented the first wearable Personal Area Network?","Thomas Zimmerman","Alan Turing","Tim Berners-Lee","Vint Cerf"],
-["In networking, PAN stands for:","Personal Area Network","Public Access Network","Primary Area Node","Packet Address Network"],
-["Which transport protocol uses a connection-oriented model?","TCP","OSPF","SMTP","IMAP"],
-["Which protocol provides secure, encrypted transmission of web pages?","HTTPS","HTTP","FTP","SMTP"],
-["Which protocol is designed for real-time voice and video over the Internet?","VoIP","FTP","IMAP","OSPF"],
-["The 8-bit binary for decimal 168 is:","10101000","10101100","10100100","11000000"],
-["The 8-bit binary for decimal 255 is:","11111111","11111110","01111111","11110000"],
-["The 8-bit binary for decimal 240 is:","11110000","00001111","11111000","11100000"],
-["The 8-bit binary for decimal 10 is:","00001010","00001001","00010100","00000101"],
-["The 8-bit binary for decimal 128 is:","10000000","01000000","11000000","00000001"],
-["The 8-bit binary for decimal 224 is:","11100000","11000000","11110000","10100000"],
-["The 8-bit binary for decimal 252 is:","11111100","11111000","11111110","11110100"],
-["The binary octet 11111000 equals decimal:","248","240","252","224"],
-["The binary octet 10111111 equals decimal:","191","189","192","127"],
-["The binary octet 00110010 equals decimal:","50","48","52","46"],
-["The 8-bit ASCII binary for the lowercase letter ‘m’ is:","01101101","01001101","01101100","01101110"],
-["The 8-bit ASCII binary for the symbol ‘%’ is:","00100101","00100100","00100110","00100011"],
-["The 8-bit ASCII binary for the uppercase letter ‘W’ is:","01010111","01010101","01010110","01001111"],
-["The binary octet 01111110 equals decimal:","126","127","128","124"]]},
-HCI101:{name:"HCI101 – Human-Computer Interaction (Final)",color:"#7c5cd6",q:[
-["Which accessibility principle ensures users can perceive the information an interface presents?","Perceivable","Operable","Robust","Understandable"],
-["Which principle means users can operate and navigate an interface?","Operable","Perceivable","Robust","Adaptive"],
-["Which principle requires content to work with different browsers and assistive technologies?","Robust","Perceivable","Operable","Responsive"],
-["Which technology creates a completely computer-generated environment users can interact with?","Virtual Reality","Augmented Reality","Speech recognition","Haptic feedback"],
-["Which technology adds digital information to the real-world environment?","Augmented Reality","Virtual Reality","Brain-computer interface","Voice interface"],
-["What does a Brain-Computer Interface do?","Connects brain activity with a computer system","Converts text to speech","Adapts layouts to screen size","Records task completion time"],
-["What is the primary purpose of usability testing?","Evaluate how easily users can accomplish tasks","Increase server speed","Write documentation","Reduce screen size"],
-["Which evaluation is done during design and development to find problems early?","Formative evaluation","Summative evaluation","Comparative evaluation","Final audit"],
-["Which evaluation measures the overall usability of a completed product?","Summative evaluation","Formative evaluation","Comparative evaluation","Heuristic sketching"],
-["Which evaluation compares an existing system against a proposed design?","Comparative evaluation","Formative evaluation","Summative evaluation","Qualitative evaluation"],
-["Which assistive technology converts written text into spoken output?","Screen reader","Touchscreen","Stylus","Haptic motor"],
-["What does responsive web design aim to do?","Adapt the interface to different screen sizes and devices","Speed up the database","Remove all images","Lock the layout to one size"],
-["Which is an example of an inclusive design practice?","Providing captions for video content","Using only small fonts","Requiring a mouse","Removing alt text"],
-["What is the purpose of alternative text for images?","Describe images for users who cannot see them","Compress the image","Animate the image","Hide the image"],
-["Why should mobile buttons have sufficiently large touch targets?","Reduce accidental selections and improve usability","Save battery","Increase screen brightness","Speed up scrolling"],
-["Which mobile gesture moves two fingers apart to enlarge an object?","Pinch","Scrolling","Tap","Swipe-to-delete"],
-["Which is an example of haptic feedback?","A phone vibrating after a button press","A screen turning brighter","A spoken confirmation","A pop-up banner"],
-["What is the primary purpose of a persona in interaction design?","Represent a type of target user","Test server load","Replace user research","Store user passwords"],
-["During usability testing, a usability metric is:","A measurable indicator of user performance","A user’s opinion only","A design sketch","A legal contract"],
-["Mobile-first design is best described as:","Designing primarily with mobile users and constraints in mind","Designing only for desktops","Adding mobile features last","Avoiding touch input"],
-["A major ethical concern with AI-powered user interfaces is:","Algorithmic bias and fairness","Faster loading times","Higher screen resolution","Lower battery use"],
-["An important ethical issue when using biometric or behavioral data in HCI is:","Privacy and informed consent","Color contrast","Font choice","Icon size"],
-["One major advantage of voice user interfaces is that they:","Provide hands-free interaction","Need no internet","Replace all screens","Never misunderstand users"],
-["Which statement best describes the future direction of HCI?","Interaction will become more intelligent, multimodal, immersive and adaptive","Interfaces will return to command lines only","Keyboards will be required","Users will have fewer input options"],
-["A mobile interaction that involves pressing the screen with one or more fingers is:","Touch interaction","Speech recognition","Haptic feedback","Eye tracking"],
-["Which technology allows a system to interpret spoken commands?","Speech recognition","Screen reader","Augmented Reality","Pinch gesture"],
-["The ethical principle of considering the needs of people with different abilities is:","Inclusive design","Mobile-first design","Formative evaluation","Haptic design"],
-["Which gesture is commonly used to move through content on a mobile screen?","Scrolling","Pinching","Vibrating","Dictating"],
-["Which legal concern is especially relevant when systems collect personal information?","Data privacy","Screen size","Battery life","Font licensing"],
-["What is the purpose of data analysis in usability evaluation?","Identify patterns and meaningful findings from collected data","Design the logo","Replace user testing","Reduce app size"],
-["Which method involves watching representative users perform assigned tasks?","User observation","Data privacy review","Persona writing","Speech recognition"],
-["Which is an example of a future user-interface technology?","Brain-computer interface","Punch cards","Command-line only","Dial-up modem"],
-["A common mobile HCI challenge is:","Limited screen space","Unlimited screen space","No touch input","No wireless access"],
-["Which technology is most associated with immersive 3D digital environments?","VR","GPS","BCI","OCR"],
-["Which is commonly collected data in usability testing?","Task completion time","Server temperature","Ad revenue","Source code size"],
-["Why is consistency important in mobile interface design?","It helps users predict how controls will behave","It reduces screen size","It removes the need for testing","It speeds up the processor"],
-["What is the main purpose of a formative evaluation?","Improve a design while it is being developed","Judge a finished product","Compare two released products","Archive test data"],
-["Digital accessibility is the concern of:","Ensuring people with disabilities have equal access to digital technologies","Making apps load faster","Reducing data costs","Increasing ad clicks"],
-["Speech recognition is best described as:","Converting spoken language into information a computer can process","Converting text to speech","Adding digital content to reality","Vibrating on button press"],
-["One limitation of touchscreen interfaces is that:","Users may accidentally activate nearby controls","They cannot display text","They need a keyboard","They cannot show images"],
-["Which technology can let users interact with computers using neural signals?","BCI","VoIP","AR","VR headset only"],
-["When designing for diverse users, designers should consider:","Differences in age, ability, language, culture and experience","Only the designer’s preferences","Only young users","Only one language"],
-["Which future technology lets users control devices through spoken commands?","Voice user interface","Touch keyboard","Brain-computer interface","Stylus input"],
-["Which mobile design principle says important information and controls should be easy to access?","Accessibility and usability","Maximum decoration","Hidden menus","Desktop parity"],
-["Why analyze qualitative feedback from usability testing?","To understand users’ experiences, opinions and difficulties","To compute server load","To count clicks only","To replace metrics"],
-["A characteristic of inclusive design is:","Designing for a wide range of users and abilities","Designing for one typical user","Ignoring disabilities","Using only audio"],
-["Which technology combines physical environments with computer-generated digital content?","AR","VR","BCI","VoIP"],
-["Which is an example of an assistive technology?","Screen reader","Photo filter","Game controller","Cloud backup"],
-["Which emerging technology could provide new interaction by directly interpreting brain activity?","BCI","HTTPS","Haptics","Responsive design"],
-["Which is an example of a mobile HCI consideration?","Speech recognition","Rack cooling","Punch-card encoding","Batch scheduling"]]},
-MS102:{name:"MS102 – Statistics (Hypothesis Testing, t-Test, Chi-Square, ANOVA)",color:"#d9822b",q:[
-["What is hypothesis testing?","A procedure using sample data to evaluate claims about a population parameter","A way to collect every population value","A method to draw graphs","A rule for rounding data"],
-["The null hypothesis (H₀) states that there is:","No significant difference, effect or association","A significant difference","A guaranteed result","A biased sample"],
-["The alternative hypothesis (H₁) states that there is:","A significant difference or effect","No difference","No association","Only random chance"],
-["A right-tailed test uses which alternative hypothesis?","H₁: μ > μ₀","H₁: μ < μ₀","H₁: μ ≠ μ₀","H₁: μ = μ₀"],
-["The significance level α is the probability of:","Rejecting H₀ when it is true (Type I error)","Accepting H₀ when it is false","Making no error","Rejecting H₁"],
-["Using the critical value method, you reject H₀ if:","|t computed| > t critical","|t computed| < t critical","t = 0","p-value > α"],
-["Using the p-value method, you reject H₀ if:","p-value ≤ α","p-value > α","p-value = 1","α = 0"],
-["If p = 0.03 and α = 0.05, the decision is:","Reject H₀","Fail to reject H₀","Accept H₀","Increase α"],
-["If p = 0.18 and α = 0.05, the decision is:","Fail to reject H₀","Reject H₀","Reject H₁","The test is invalid"],
-["Which is the correct terminology when evidence is insufficient?","Fail to reject H₀","Accept H₀","Prove H₀","Reject H₁"],
-["The one-sample t-test formula is:","t = (x̄ − μ) / (s / √n)","t = (x̄ − μ) × s","t = s / (x̄ − μ)","t = (μ − s) / n"],
-["The degrees of freedom for a one-sample t-test are:","n − 1","n","n + 1","n − 2"],
-["Which t-test compares the means of two separate, unrelated groups?","Independent t-test","One-sample t-test","Paired-samples t-test","Chi-square test"],
-["Which test fits pre-test vs. post-test scores from the same group?","Paired-samples t-test","Independent t-test","Chi-square test","ANOVA"],
-["For df = 9, a two-tailed test at α = 0.05 has a critical t of:","±2.262","±1.833","±2.821","±3.250"],
-["A sample (n = 10) has x̄ = 72, s = 2.58 and μ = 70. The computed t is about:","2.45","0.82","1.20","3.16"],
-["Greater data variability (larger s) causes the computed t-value to:","Shrink, making rejection harder","Grow, making rejection easier","Stay the same","Become zero"],
-["The chi-square test is used for:","Categorical or count data","Comparing three or more means","Quantitative means only","Predicting values"],
-["For a goodness-of-fit test with k categories, df equals:","k − 1","k","(r − 1)(c − 1)","N − k"],
-["The expected cell frequency in a test of independence is:","(Row total × Column total) / Grand total","Row total + Column total","Observed − Grand total","Grand total / 2"],
-["A common chi-square guideline is that expected cell frequencies should be:","At least 5","Exactly 1","Below 5","Equal to observed counts"],
-["ANOVA is used to test for differences among:","Three or more group means","Two proportions","One sample mean","Categorical counts"],
-["In the worked ANOVA (MSB = 12, MSW = 4, F critical = 5.143), the decision is:","F = 3.00, fail to reject H₀","F = 3.00, reject H₀","F = 48, reject H₀","F = 8, fail to reject H₀"],
-["Which test fits gender vs. course preference?","Chi-square test of independence","Paired-samples t-test","One-way ANOVA","One-sample t-test"],
-["A two-tailed test checks for:","Any difference (≠)","Only greater than","Only less than","No difference"],
-["A left-tailed test uses which alternative hypothesis?","H₁: μ < μ₀","H₁: μ > μ₀","H₁: μ ≠ μ₀","H₁: μ = μ₀"],
-["Which is a commonly used significance level?","α = 0.05","α = 0.5","α = 5","α = 1.5"],
-["The Student’s t-test is used when:","σ is unknown and the sample is small (n < 30)","Data are categorical counts","There are three or more means","σ is known and n is large"],
-["A one-sample t-test compares:","One sample mean with a hypothesized population mean","Two unrelated groups","Three groups","Two categorical variables"],
-["For a paired-samples t-test, the null hypothesis is:","μdiff = 0","μdiff ≠ 0","μ₁ ≠ μ₂","μ > μ₀"],
-["For an independent t-test, the null hypothesis is:","μ₁ = μ₂","μ₁ ≠ μ₂","μdiff = 0","μ < μ₀"],
-["What is the first step of the standard hypothesis-testing procedure?","State H₀ and H₁","Compute the statistic","Draw a conclusion","Set the sample size"],
-["What is done when setting the significance level?","Select α and decide one- or two-tailed","Compute χ²","Calculate the grand mean","Reject H₀"],
-["In the worked example, the sample mean equals the hypothesized mean (75). The computed t is:","0","1","2.262","75"],
-["For a one-sample test with n = 10, the degrees of freedom are:","9","10","8","11"],
-["Larger differences between x̄ and μ generally:","Produce larger t values, making rejection more likely","Produce smaller t values","Have no effect on t","Make H₀ always true"],
-["Larger sample sizes generally:","Decrease standard error and increase statistical power","Increase standard error","Lower the t statistic","Eliminate α"],
-["A smaller α (e.g., 0.01 vs 0.05) requires:","Stronger evidence to reject H₀","Weaker evidence to reject H₀","A smaller sample","No critical value"],
-["The chi-square statistic is calculated as:","∑ (O − E)² / E","∑ (O − E) / E","∑ O × E","(x̄ − μ) / (s / √n)"],
-["100 students choose among 4 languages. Under an equal distribution, the expected count per language is:","25","100","4","50"],
-["In the goodness-of-fit example, χ² = 20.00 vs critical 7.815. The decision is:","Reject H₀","Fail to reject H₀","Accept H₀","Increase df"],
-["In the independence example, χ² = 4.00 vs critical 3.841. The conclusion is:","Gender and language preference are significantly associated","They are independent","Fail to reject H₀","The test is invalid"],
-["The df for a 2 × 2 test of independence is:","1","2","3","4"],
-["Chi-square tests require data that are:","Categorical counts, not percentages or means","Percentages","Sample means","Z-scores"],
-["The alternative hypothesis in ANOVA states that:","At least one population mean differs","All means are equal","All means differ","The variances are zero"],
-["Between-groups degrees of freedom in ANOVA are:","k − 1","N − k","N − 1","k"],
-["Within-groups degrees of freedom in ANOVA are:","N − k","k − 1","N + k","k"],
-["In the ANOVA example (groups A: 10,12,14; B: 12,14,16; C: 14,16,18), the grand mean is:","14","12","16","126"],
-["The F statistic in ANOVA is computed as:","MSB / MSW","MSW / MSB","SSB × SSW","SST / N"],
-["Which rule matches the t-test?","t-Test compares means of 1–2 groups","t-Test analyzes counts","t-Test compares 3+ means","t-Test uses the F ratio"]]},
-CC104:{name:"CC104 – Data Structures and Algorithm",color:"#3b82c4",q:[
-["Searching slows after inserting sorted values into a BST because the tree becomes:","Skewed","Balanced","Complete","Full"],
-["Which tree lets each node have more than two children?","General Tree","Binary Tree","AVL Tree","Min Heap"],
-["Which traversal visits the root before its subtrees?","Preorder","Inorder","Postorder","Level-order"],
-["Which traversal processes directories level by level?","Level-order","Preorder","Inorder","Postorder"],
-["Inorder traversal of a valid BST generally outputs values in:","Ascending order","Descending order","Random order","Level order"],
-["Which traversal places operators after their operands in an expression tree?","Postorder","Preorder","Inorder","Level-order"],
-["In an expression tree, leaf nodes normally store:","Operands","Operators","Parentheses","Heights"],
-["If the target is smaller than the current BST node, the search continues in the:","Left subtree","Right subtree","Parent","Root only"],
-["Inserting values in increasing order into a BST can degrade search toward:","O(n)","O(1)","O(log n)","O(n log n)"],
-["Removing a node while preserving BST ordering is called:","Deletion","Insertion","Rotation","Splaying"],
-["A BST receives 50, 30, 70, 20. Where is 40 inserted?","Right of 30","Left of 30","Left of 20","Right of 70"],
-["Which traversal naturally produces sorted values from a BST?","Inorder","Preorder","Postorder","Level-order"],
-["A tree where every node has at most two children is a:","Binary Tree","General Tree","B-Tree","Trie"],
-["The longest downward path from a node to a leaf is its:","Height","Depth","Degree","Balance factor"],
-["An AVL node has left height 4 and right height 2. Its balance factor (left − right) is:","+2","−2","0","+6"],
-["An AVL node has balance factor +2 (left − right). The imbalance is:","Left-heavy","Right-heavy","Balanced","Red-heavy"],
-["Inserting 30, 20, 10 into an AVL tree produces the:","LL case","RR case","LR case","RL case"],
-["The 30, 20, 10 imbalance is fixed by a:","Right rotation","Left rotation","Left-right rotation","No rotation"],
-["Inserting 10, 20, 30 into an AVL tree is fixed by a:","Left rotation","Right rotation","Double rotation","Recoloring"],
-["Inserting 30, 10, 20 into an AVL tree produces the:","LR case","RL case","LL case","RR case"],
-["For the LR case, the rotation sequence is:","Left then right","Right then left","Right only","Left only"],
-["Inserting 10, 30, 20 into an AVL tree produces the:","RL case","LR case","LL case","RR case"],
-["An AVL node with equal left and right subtree heights has balance factor:","0","1","−1","2"],
-["Which tree gives ordered searching while automatically controlling height after updates?","AVL Tree","Skewed BST","General Tree","Plain binary tree"],
-["In a Red-Black tree, the root must be:","Black","Red","Either color","Same color as its child"],
-["A red parent with a red child violates the:","No-red-red rule","Root rule","Complete-tree rule","Balance-factor rule"],
-["A new node inserted into a Red-Black tree is initially:","Red","Black","Gray","Uncolored"],
-["After detecting a red parent and red child, the next thing to examine is the:","Uncle","Root’s height","Leaf count","Hash value"],
-["If the uncle is also red, the violation may be fixed by:","Recoloring","Rotation only","Deletion","Splitting"],
-["If recoloring alone cannot repair a Red-Black violation, you need a:","Rotation","Hash function","Probe","Split"],
-["A Red-Black tree controls balance because:","It uses color rules to control imbalance","It stores balance factors","It sorts on insert","It keeps all nodes black"],
-["Which tree moves frequently accessed records closer to the root?","Splay Tree","AVL Tree","B-Tree","Min Heap"],
-["Accessing a node directly below the root uses the:","Zig pattern","Zig-Zig pattern","Zig-Zag pattern","Split pattern"],
-["Target and parent on the same side of the grandparent uses:","Zig-Zig","Zig","Zig-Zag","Recoloring"],
-["Target and parent on opposite sides uses:","Zig-Zag","Zig-Zig","Zig","Splitting"],
-["The Zig pattern performs how many rotations?","1","2","3","0"],
-["The Zig-Zig pattern performs how many rotations?","2","1","3","0"],
-["Which tree stores multiple sorted keys per node for database indexes?","B-Tree","AVL Tree","Splay Tree","Binary Tree"],
-["A full B-Tree node during insertion triggers:","Splitting","Merging","Recoloring","Zigging"],
-["During a B-Tree split, the key promoted is the:","Middle/separator key","Smallest key","Largest key","Newest key only"],
-["B-Trees suit large storage indexes because they:","Reduce the number of storage accesses","Use no keys","Are always binary","Use colors"],
-["Which tree keeps all leaf nodes at the same depth?","B-Tree","BST","Splay Tree","Skewed tree"],
-["Which structure always processes the largest priority value first?","Max Heap","Min Heap","Queue","Stack"],
-["Which structure keeps the smallest value at the root?","Min Heap","Max Heap","AVL Tree","B-Tree"],
-["A smaller value placed above its child in a Max Heap violates:","Max-heap ordering","Complete-tree structure","Root color rule","Balance factor"],
-["A gap in the last level of a binary heap violates:","Complete binary tree structure","Max-heap ordering","AVL balance","Red-Black rule"],
-["Insertion Sort is efficient on nearly sorted lists because it:","Inserts elements into proper positions with few movements","Splits the list in halves","Uses hashing","Builds a heap"],
-["In Shell Sort with gaps 4, 2, 1, at gap 1:","Adjacent elements are compared as in Insertion Sort","Elements 4 apart are compared","A heap is built","The list is split in halves"],
-["With h(key) = key % 10, key 35 collides at index 5. Linear probing stores it at:","Index 6 if free","Index 4","Index 0","Index 10"],
-["Using a second hash function to compute a new position after a collision is:","Double hashing","Linear probing","Separate chaining","Rehashing"]]},
-SOSLIT:{name:"SOSLIT – Sosyedad at Literatura",color:"#c2417a",q:[
-["Ayon sa susi, si Liwayway A. Arceo ay:","Hindi sumulat ng libo-libong nobela","Sumulat ng humigit-kumulang 3,000 nobela","Namahala sa Liwayway noong Hapon","Nag-imbento ng Haiku"],
-["Aling anyo ng panitikan ang pinakamaunlad sa panahong Hapon?","Maikling Kuwento","Nobela","Epiko","Tulang Pasalaysay"],
-["Bakit sinupil ng mga Hapon ang mga aklat sa Ingles?","Upang hindi maimpluwensiyahan ng kanluraning panitikan ang mga Pilipino","Dahil kulang ang papel","Upang itaguyod ang Ingles","Upang ibenta sa ibang bansa"],
-["Alin ang HINDI karaniwang tema sa panahon ng Hapon?","Pagtutol sa lahat ng katutubong kaugalian","Pagpapahalaga sa katutubong kaugalian","Buhay sa lalawigan","Pagmamahal sa bayan"],
-["Ano ang tawag sa panahong 1942–1945 para sa maikling kuwento at dulang Pilipino?","Ginintuang Panahon","Panahon ng Katahimikan","Panahon ng Propaganda","Panahon ng Aliwan"],
-["Ang Haiku ay binubuo ng ilang taludtod?","3","5","7","4"],
-["Bakit lumipat ang maraming artista sa pelikula sa pagtatanghal sa dula?","Ipinagbawal ang pelikulang gawa sa Pilipinas","Mas mataas ang sahod","Nasira ang mga sinehan sa bagyo","Gusto nilang maging manunulat"],
-["Sino ang namahala sa Liwayway sa panahon ng Hapon?","Kin-ichi Ishikawa","Liwayway A. Arceo","Enrique","Magellan"],
-["Bukod sa pitong pantig bawat taludtod, ang Tanaga ay may:","Sukat at tugma","Sukat lamang","Tugma lamang","Walang sukat at tugma"],
-["Ano ang layunin ng panitikan tungkol sa mga pangkat minorya?","Ipakita ang karanasan ng mga madalas makaranas ng diskriminasyon","Ipagmalaki ang mayorya","Burahin ang kultura","Libangin lamang"],
-["Sino ang itinuturing na mayoryang pangkat sa Pilipinas?","Mga Kristiyano sa kapatagan","Mga Lumad","Mga Muslim sa Mindanao","Mga Pilipino sa ibang bansa"],
-["Sino ang mayorya sa sariling lugar ngunit minorya sa buong bansa?","Mga Muslim","Mga Kristiyano sa kapatagan","Mga dayuhan","Mga OFW"],
-["Ang multikulturalismo ay:","Pagtanggap at pagkilala sa pagkakaiba-iba ng kultura","Pagpapairal ng isang kultura","Pagtanggi sa ibang wika","Pagbabawal sa tradisyon"],
-["Sa konteksto ng bansang estado, sinikap ang pagkakaisa sa pamamagitan ng:","Isang kultura, wika, at pagkakakilanlan","Maraming wika","Paghihiwalay ng rehiyon","Pagkakaiba-iba ng kultura"],
-["Alin ang halimbawa ng rehiyonal na diskriminasyon?","Pagsasabing mas mababa ang kagalingan ng tao mula sa ibang rehiyon","Pagtulong sa kapwa","Pagdiriwang ng pista","Pag-aaral ng ibang wika"],
-["Mahalaga ang multikulturalismo upang:","Magkaroon ng mas pantay at makatarungang lipunan","Mawala ang iba’t ibang wika","Maging pareho ang lahat","Mapalakas ang diskriminasyon"],
-["Ang mga Muslim sa Mindanao ay:","Minorya sa bansa ngunit mayorya sa harap ng mga katutubo","Mayorya sa buong bansa","Minorya sa lahat ng antas","Walang kaugnayan sa mga katutubo"],
-["Sino ang itinuturing na pinakamaliit o pinakamahinang pangkat sa lipunang Pilipino?","Mga Lumad/Katutubo","Mga Muslim","Mga Kristiyano sa kapatagan","Mga OFW"],
-["Nakikita ang rehiyonalismo sa mga Pilipino sa ibang bansa dahil:","Sila ay nagsasama-sama ayon sa kanilang rehiyon","Hindi sila nag-uusap","Iisa ang wika nila","Ayaw nilang magtipon"],
-["Sino ang tinuturing na unang OFW ayon sa teksto?","Si Enrique","Si Magellan","Si Rizal","Si Ishikawa"],
-["Isang dahilan ng diaspora sa kasalukuyan ay:","Sapilitang pagpapalayas, digmaan, o kalamidad","Pagdiriwang","Pagbabago ng panahon lamang","Pag-aaral ng wika"],
-["Nagsimula ang orihinal na konsepto ng diaspora sa mga Griyego noong:","Ika-5 siglo BCE","Ika-1 siglo CE","Ika-15 siglo","Ika-20 siglo"],
-["Saan binili ni Magellan si Enrique?","Sa Melaka","Sa Maynila","Sa Cebu","Sa Sevilla"],
-["Ayon sa susi, ang konteksto ng pagbili kay Enrique ay:","Upang magtago sa ibang lugar","Upang maglakbay bilang turista","Upang ipagbili muli","Upang magturo"],
-["Ano ang pagkakaiba ng diaspora sa migrasyon?","Ang diaspora ay partikular na pagkalat mula sa etnikong tahanan; ang migrasyon ay pangkalahatang paglipat","Pareho lamang ang dalawa","Ang migrasyon ay sapilitan lamang","Ang diaspora ay paglipat sa loob ng bayan"],
-["Alin ang HINDI elemento ng maikling kuwento?","Tugma","Tauhan","Banghay","Tagpuan"],
-["Anong uri ng maikling kuwento ang nakatuon sa kultura, tradisyon at kaugalian ng isang lugar?","Kuwento ng Katutubong Kulay","Kuwento ng Tauhan","Kuwento ng Madulang Pangyayari","Kuwento ng Kababalaghan"],
-["Sa pagsusuri ng tauhan, dapat suriin ang:","Anyo, ugali, at paraan ng pagsasalita","Sukat at tugma","Bilang ng saknong","Pamagat lamang"],
-["Ano ang tawag sa bilang ng pantig sa bawat taludtod ng tula?","Sukat","Tugma","Saknong","Persona"],
-["Ang anyo ng tula na may sukat ngunit walang tugma ay:","Berso Blanco","Tanaga","Haiku","Tulang Pasalaysay"],
-["Sino ang nagsasalita sa loob ng tula?","Ang Persona","Ang Mambabasa","Ang Banghay","Ang Saknong"],
-["Aling genre ng dula ang may malungkot na wakas?","Trahedya","Komedya","Saynete","Sarswela"],
-["Aling uri ng tula ang nagkukuwento ng mga pangyayari sa buhay?","Tulang Pasalaysay","Tulang Liriko","Berso Blanco","Haiku"],
-["Alin ang HINDI kasama sa bahaging Pagsusuri ng dula?","Sukat at Tugma","Tauhan","Banghay","Tagpuan"],
-["Ano ang layunin ng teorya sa pagsusuri ng akdang pampanitikan?","Magbigay ng pananaw o pananaliksik sa akda","Bilangin ang pantig","Isalin ang akda","Burahin ang akda"],
-["Aling dula ang nagpapakita ng kaugalian o kultura ng isang pangkat o lugar?","Saynete","Trahedya","Sarswela","Parsa"],
-["Ano ang Bisang Pangkaisipan?","Tumatalakay sa isipan","Tumatalakay sa damdamin","Tumatalakay sa kilos","Tumatalakay sa tunog"],
-["Ano ang tawag sa pagkakasunod-sunod ng mga pangyayari sa maikling kuwento?","Banghay","Tagpuan","Tauhan","Saknong"],
-["Alin ang HINDI elemento ng dula?","Talinghaga","Tauhan","Tagpuan","Banghay"],
-["Ano ang tawag sa grupo ng mga taludtod sa tula?","Saknong","Sukat","Tugma","Persona"],
-["Gaano katagal maaaring tumagal ang workshop?","Ilang oras lamang","Isang taon","Limang taon","Isang dekada"],
-["Alin ang HINDI uri ng akdang isinusulat sa workshop?","Nobela","Maikling kuwento","Tula","Dula"],
-["Bago ipasa ang maikling kuwento, dapat bigyang-pansin ang:","Ang banghay at tauhan","Ang tugma at sukat","Ang bilang ng pahina","Ang kulay ng papel"],
-["Sa bahaging Pagninilay ng workshop:","Nalaman kung ano ang natutuhan at paano ito maisasabuhay","Ipinasa ang akda","Binago ang draft","Nagbigay ng grado"],
-["Ano ang layunin ng pagbibigay ng puna sa kapwa kalahok?","Upang mapabuti ang sarili at gawa ng iba","Upang manghusga","Upang pagalitan","Upang manalo"],
-["Sa pagsusuri ng tula bago ipasa, dapat bigyang-pansin ang:","Tugma, simbolismo, at tema","Banghay at tagpuan","Tagal ng workshop","Bilang ng tauhan"],
-["Ano ang pinakamakahulugang katangian ng maikling kuwento?","Madaling basahin, nagbibigay-aral, at naglalahad ng sariling kaisipan at karanasan","Napakahaba","Walang aral","Puro tugma"],
-["Ano ang ugnayan ng pagsusulat ng draft at pagrerebisa?","Ang rebisa ay pagpapabago at pagpapaganda sa unang nilikha","Magkapareho ang draft at rebisa","Una ang rebisa bago ang draft","Hindi kailangan ang rebisa"],
-["Sa pagtatapos ng workshop, itinataguyod ang pananaw na:","Dapat itong ipagpatuloy at magtulungan bilang mga manunulat","Itigil ang pagsusulat","Magkanya-kanya","Huwag nang magbahagi"],
-["Ano ang tema tungkol sa pag-unlad ng panitikan sa panahong Hapon?","Ang maikling kuwento ang pinakamaunlad na anyo","Ang nobela ang pinakamaunlad na anyo","Walang umunlad na anyo","Ang epiko ang pinakamaunlad na anyo"]]}
-};
-
-let cur,qs,i,score,missed,answered;
-const $=id=>document.getElementById(id);
-const shuf=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
-const show=id=>["menu","quiz","res"].forEach(x=>$(x).classList.toggle("hide",x!==id));
-
-$("list").innerHTML=Object.entries(SUBJECTS).map(([k,s])=>`<button class="subj" style="--c:${s.color}" onclick="start('${k}')"><b>${s.name}</b><span>${s.q.length} questions · shuffled each attempt</span></button>`).join("");
-
+// [question, correct answer, wrong1, wrong2, wrong3]
+const DATA={
+ITE:{name:"ITE101 – Core Web Technologies",desc:"HTML, CSS, JavaScript & APIs",q:[
+["Which technology provides the structure and skeleton of a webpage?","HTML","CSS","JavaScript","APIs"],
+["Who invented and introduced HTML?","Tim Berners-Lee","Brendan Eich","Bill Gates","Linus Torvalds"],
+["In what year was HTML officially released?","1991","1985","1995","2000"],
+["What is the root element of an HTML document?","<html>","<head>","<body>","<root>"],
+["Which declaration tells the browser the document uses HTML5?","<!DOCTYPE html>","<html5>","<!HTML5>","<doctype version=5>"],
+["What is the primary tool for styling and designing webpages?","CSS","HTML","JavaScript","APIs"],
+["Which technology adds behavior, interactivity and dynamic features?","JavaScript","HTML","CSS","Hypertext"],
+["What is the common file extension of JavaScript files?",".js",".java",".script",".jv"],
+["What do APIs do?","Connect and allow communication between software systems","Style webpage layouts","Define a page’s structure","Store images on a page"],
+["What is rendering?","Converting webpage code into a visible webpage","Writing code in an editor","Saving a file as .html","Encrypting a webpage"],
+["Hypertext refers to…","Hyperlinks connecting webpages","Text that is very large","Text written in CSS","Hidden text in a page"],
+["What is an HTML tag?","A command enclosed in angle brackets","A command in curly braces","A command in parentheses","A command in square brackets"],
+["Which is the correct syntax for an HTML comment?","<\!-- This is a comment -->","// This is a comment","/* This is a comment */","# This is a comment"],
+["HTML files are saved with which extension?",".html",".xml",".css",".htl"],
+["Which is a complete HTML element?","<p>This is a paragraph.</p>","<p>","</p>","This is a paragraph."],
+["In <a href=\"https://www.google.com\">, what is href?","An attribute","A tag","A void element","A comment"],
+["Which is a void element (needs no closing tag)?","<img>","<p>","<div>","<h1>"],
+["Which heading level is the smallest?","<h6>","<h1>","<h3>","<head>"],
+["What does the <pre> tag do?","Preserves spaces and line breaks as written","Highlights text","Adds a table caption","Creates a heading"],
+["Which tag is used to highlight text?","<mark>","<pre>","<dt>","<caption>"],
+["Which tags create a description list?","<dl>, <dt>, <dd>","<ul>, <li>","<ol>, <li>","<dd>, <dr>"],
+["In a description list, what does <dt> represent?","Description term","Description details","Description list","Data table"],
+["In <ol>, what does type=\"i\" display?","Lowercase Roman numerals","Uppercase Roman numerals","Lowercase letters","Numbers"],
+["What does the start attribute of <ol> specify?","The starting number of the list","The list style","The list’s color","The number of items"],
+["Which HTML entity displays the less-than symbol (<)?","&lt;","&gt;","&amp;","&quot;"],
+["Which tag adds a title to a table?","<caption>","<title>","<th>","<thead>"],
+["What does colspan allow?","A cell to extend horizontally across multiple columns","A cell to extend vertically across rows","A table to have borders","A table to have a caption"],
+["What does rowspan allow?","A cell to extend vertically across multiple rows","A cell to extend across columns","A row to be hidden","A table to be sorted"],
+["What does the placeholder attribute do?","Shows temporary guide text in an empty input","Makes an input required","Sets the input’s default value","Hides the input"],
+["Which input type gives automatic email format validation?","type=\"email\"","type=\"text\"","type=\"mail\"","type=\"url\""],
+["Which input type masks the characters typed?","type=\"password\"","type=\"hidden\"","type=\"secret\"","type=\"text\""],
+["Which input type is designed for a single-option choice group?","type=\"radio\"","type=\"checkbox\"","type=\"range\"","type=\"submit\""],
+["Which method places CSS directly inside an HTML element?","Inline CSS using the style attribute","External stylesheet","Internal <style> block","@import rule"],
+["What is a CSS selector?","A pattern used to identify HTML elements to style","A tool that selects files","A JavaScript function","A type of HTML tag"],
+["Which symbol represents the universal selector?","*","#",".","&"],
+["An ID selector is preceded by which symbol?","# (hashtag)",". (dot)","* (asterisk)","@ (at sign)"],
+["When is a class selector appropriate?","When applying the same style to multiple elements","When styling one unique element only","When styling every element on the page","When writing JavaScript"],
+["What does a grouping selector allow?","The same CSS rules applied to multiple selectors","Grouping HTML files together","Nesting tables","Grouping JavaScript variables"],
+["Which property changes an element’s background color?","background-color","color","bgcolor","font-color"],
+["Which property specifies the typeface used for text?","font-family","font-style","font-type","text-font"],
+["Which property controls the thickness or boldness of text?","font-weight","font-size","text-weight","font-style"],
+["In the box model, which part is the innermost?","Content","Padding","Border","Margin"],
+["In the box model, what is padding?","Space between an element’s content and its border","Space outside the border","The border’s thickness","The element’s background"],
+["What does border: 2px solid black; create?","A solid black border 2 pixels thick","A dotted black border 2 pixels thick","A solid black border 2 em wide","A 2-pixel black shadow"],
+["How do CSS transform functions affect layout?","They alter an element’s geometry without affecting normal document flow","They reorder the HTML source","They move other elements out of the way","They delete the element"],
+["What does scale(0.8) do?","Shrinks the content size","Enlarges the content","Rotates the content","Hides the content"],
+["What does CSS animation do?","Transitions elements smoothly between styles without JavaScript","Requires JavaScript to run","Only changes text color","Loads images faster"],
+["Which tag embeds JavaScript into an HTML document?","<script>","<js>","<javascript>","<code>"],
+["Which statement displays a pop-up message box?","alert(\"Welcome\");","console.log(\"Welcome\");","popup(\"Welcome\");","print(\"Welcome\");"],
+["Which keyword declares a variable that cannot be reassigned?","const","let","var","static"]
+]},
+IPT:{name:"IPT101 – Integrative Programming Technologies",desc:"Java, Swing GUI & JDBC",q:[
+["Which component of the Java platform executes compiled bytecode?","JVM","JDK","javac","IDE"],
+["Which command compiles a Java source file?","javac","java","jar","javadoc"],
+["Which statement correctly declares and initializes an integer named age?","int age = 20;","integer age = 20;","age int = 20;","int age := 20;"],
+["Which Java data type stores either true or false?","boolean","bit","int","char"],
+["Which statement correctly declares a constant?","final int MAX = 100;","const int MAX = 100;","static int MAX = 100;","constant MAX = 100;"],
+["Which operator checks whether two values are equal?","==","=","!=","==>"],
+["Which operator requires both Boolean expressions to be true?","&&","||","!","&"],
+["Which structure suits selecting among multiple conditions?","if-else-if","for","while","break"],
+["Which loop is commonly used when the number of repetitions is known?","for","while","do-while","if"],
+["What is the purpose of break inside a switch or loop?","Exit the switch or loop","Skip to the next iteration","Restart the loop","End the program"],
+["Which statement creates an integer array of 10 elements?","int[] numbers = new int[10];","int numbers = new int(10);","int[] numbers = int[10];","array numbers = new int[10];"],
+["What is the first valid index of a Java array?","0","1","-1","length"],
+["Given int[] scores = {75, 80, 85, 90};, which expression retrieves 85?","scores[2]","scores[3]","scores[1]","scores(2)"],
+["Which property gives the number of elements in an array?","length","size","count","length()"],
+["What is the primary purpose of a class in OOP?","It serves as a blueprint for objects","It stores a single variable","It runs the program automatically","It compiles source code"],
+["Which statement correctly creates an object of class Student?","Student s = new Student();","Student s = Student();","new Student s();","Student s = create Student();"],
+["Which OOP principle lets one class acquire properties and behaviors of another?","Inheritance","Encapsulation","Abstraction","Compilation"],
+["A constructor is primarily used for…","Initializing an object when it is created","Destroying an object","Compiling a class","Printing output"],
+["Which Swing component represents the main application window?","JFrame","JPanel","JLabel","JButton"],
+["Which Swing component accepts a single line of text?","JTextField","JTextArea","JLabel","JTable"],
+["Which layout manager divides a container into NORTH, SOUTH, EAST, WEST and CENTER?","BorderLayout","GridLayout","FlowLayout","CardLayout"],
+["Which layout manager arranges components in rows and columns of equal-sized cells?","GridLayout","BorderLayout","FlowLayout","BoxLayout"],
+["Which Swing component displays a clickable command button?","JButton","JLabel","JCheckBox","JTextField"],
+["What is an event in a GUI program?","A user or system action that can trigger program behavior","A compiled class file","A database record","A type of layout"],
+["Which listener is commonly used to handle a JButton click?","ActionListener","KeyListener","MouseMotionListener","WindowListener"],
+["What is the purpose of an event listener?","To respond when a specified event occurs","To draw components","To connect to a database","To compile code"],
+["When a JButton with an ActionListener is clicked, what happens?","Its associated event-handling code executes","The window closes","The program restarts","Nothing happens"],
+["Which listener is designed for keyboard-related events?","KeyListener","ActionListener","MouseListener","ItemListener"],
+["Which Swing component displays records in rows and columns?","JTable","JList","JTextArea","JPanel"],
+["Which component is commonly used for a multi-line text area in a form?","JTextArea","JTextField","JLabel","JPasswordField"],
+["Why should input be validated before database processing?","To reduce invalid data and avoid preventable errors","To make the database faster","To avoid using JDBC","To change the table structure"],
+["In a CRUD-style Swing application, a JTable is commonly used for…","Displaying database records","Connecting to the database","Compiling SQL","Handling keyboard events"],
+["What is the main purpose of JDBC?","To connect Java applications with databases","To design GUI layouts","To compile Java files","To handle GUI events"],
+["Which JDBC interface represents an active database connection?","Connection","Statement","ResultSet","DriverManager"],
+["Which class is commonly used to obtain a JDBC connection?","DriverManager","PreparedStatement","ResultSet","JFrame"],
+["Which object is designed to execute parameterized SQL statements?","PreparedStatement","ResultSet","Connection","DriverManager"],
+["Which method is normally used for a SELECT statement that returns rows?","executeQuery()","executeUpdate()","executeRows()","getResult()"],
+["Which JDBC object contains the rows returned by a SELECT query?","ResultSet","Connection","PreparedStatement","DriverManager"],
+["Which method is commonly used for INSERT, UPDATE and DELETE?","executeUpdate()","executeQuery()","executeSelect()","executeRows()"],
+["Which PreparedStatement method assigns a String value to a ? parameter?","setString()","getString()","setText()","putString()"],
+["Which method moves a ResultSet cursor to the next row?","next()","move()","forward()","nextRow()"],
+["Why is PreparedStatement preferred for SQL with user-supplied values?","It supports parameterized SQL and helps reduce SQL injection risk","It runs without a connection","It works only with SELECT","It removes the need for validation"],
+["What is the typical sequence of a database operation started from a Swing button?","Button event → JDBC method → SQL → database → result → GUI","SQL → GUI → button event → database","Database → SQL → button event → GUI","GUI → database → JDBC → button event"],
+["Which set correctly represents CRUD operations?","Create, Read, Update, Delete","Connect, Run, Update, Display","Create, Retrieve, Upload, Drop","Copy, Read, Undo, Delete"],
+["When SQL must accept user-entered values, it is best to…","Use PreparedStatement with ? placeholders","Concatenate the input directly into the SQL string","Skip validation","Use only executeQuery()"],
+["Which SQL operation is the ‘Read’ part of CRUD?","SELECT","INSERT","UPDATE","DELETE"],
+["Which operation changes an existing database record?","UPDATE","INSERT","SELECT","CREATE"],
+["Which operation removes an existing database record?","DELETE","SELECT","UPDATE","INSERT"],
+["Which JDBC component represents the results of a SELECT operation?","ResultSet","Connection","DriverManager","executeUpdate()"],
+["An app connects successfully but shows no records. Which JDBC component should you check first when processing returned rows?","ResultSet","DriverManager","JFrame","ActionListener"]
+]}};
+const app=document.getElementById("app");
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+let S;
+function menu(){
+  app.replaceChildren();
+  app.append(el("h1",0,"Quiz Reviewer"),el("p","sub","Choose a subject to start. Each quiz has 50 items, shuffled every attempt."));
+  for(const k in DATA){const b=el("button","subj");b.append(el("b",0,DATA[k].name),el("span",0,DATA[k].desc+" · "+DATA[k].q.length+" items"));b.onclick=()=>start(k);app.append(b)}
+}
 function start(k){
-  cur=k;const s=SUBJECTS[k];
-  document.documentElement.style.setProperty("--acc",s.color);
-  qs=shuf(s.q);i=0;score=0;missed=[];
-  show("quiz");render();
+  S={k,i:0,score:0,miss:[],items:shuf(DATA[k].q).map(r=>({q:r[0],a:r[1],o:shuf(r.slice(1))}))};
+  show();
 }
-function render(){
-  answered=false;const q=qs[i];
-  $("ct").textContent=`${SUBJECTS[cur].name.split(" –")[0]} · Question ${i+1} / ${qs.length}`;
-  $("sc").textContent=`Score: ${score}`;
-  $("pg").style.width=(i/qs.length*100)+"%";
-  $("qt").textContent=q[0];$("fb").textContent="";$("fb").style.color="";
-  $("nx").disabled=true;$("nx").textContent=i===qs.length-1?"See results":"Next";
-  $("ops").innerHTML="";
-  shuf(q.slice(1)).forEach((t,n)=>{
-    const d=document.createElement("div");d.className="opt";d.dataset.ok=t===q[1]?"1":"";
-    d.innerHTML=`<b>${"ABCD"[n]}</b><span></span>`;d.lastChild.textContent=t;
-    d.onclick=()=>pick(d,q);$("ops").appendChild(d);
-  });
+function show(){
+  const it=S.items[S.i],n=S.items.length;let pick=null;
+  app.replaceChildren();
+  const m=el("div","meta");m.append(el("span",0,DATA[S.k].name.split(" – ")[0]),el("span",0,"Question "+(S.i+1)+" of "+n));
+  const bar=el("div","bar");const fill=el("i");fill.style.width=(S.i/n*100)+"%";bar.append(fill);
+  const card=el("div","card");card.append(el("p","q",it.q));
+  const nx=el("button","btn",S.i==n-1?"Finish":"Next");nx.disabled=true;
+  it.o.forEach(t=>{const b=el("button","opt",t);b.onclick=()=>{pick=t;card.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");nx.disabled=false};card.append(b)});
+  nx.onclick=()=>{if(pick===it.a)S.score++;else S.miss.push({q:it.q,y:pick,a:it.a});S.i++;S.i<n?show():result()};
+  const row=el("div","row");const q=el("button","btn alt","Quit");q.onclick=()=>{if(confirm("Quit this quiz? Progress will be lost."))menu()};row.append(nx,q);
+  app.append(m,bar,card,row);
 }
-function pick(d,q){
-  if(answered)return;answered=true;
-  const good=!!d.dataset.ok;
-  document.querySelectorAll(".opt").forEach(o=>{o.classList.add("lk");if(o.dataset.ok)o.classList.add("ok")});
-  if(good){score++;$("fb").textContent="Correct.";$("fb").style.color="var(--okb)"}
-  else{d.classList.add("no");missed.push(q);$("fb").textContent="Incorrect — the correct answer is highlighted.";$("fb").style.color="var(--nob)"}
-  $("sc").textContent=`Score: ${score}`;$("nx").disabled=false;
+function result(){
+  const n=S.items.length,p=Math.round(S.score/n*100);
+  app.replaceChildren();
+  const c=el("div","card score");c.append(el("div","meta","Your score"),el("div","n",S.score+" / "+n),el("div",0,p+"% · "+(p>=75?"Great job!":p>=50?"Good effort, keep reviewing!":"Keep practicing, you’ll get there!")));
+  const row=el("div","row");row.style.justifyContent="center";
+  const r=el("button","btn","Retry");r.onclick=()=>start(S.k);
+  const mn=el("button","btn alt","Choose subject");mn.onclick=menu;row.append(r,mn);c.append(row);app.append(c);
+  if(S.miss.length){app.append(el("h2",0,"Review your mistakes ("+S.miss.length+")"));
+    S.miss.forEach(x=>{const d=el("div","rv");d.append(el("div",0,x.q),el("div",0,"Your answer: "+x.y),el("div","g","Correct: "+x.a));app.append(d)})}
 }
-function next(){if(!answered)return;i++;i>=qs.length?finish():render()}
-function finish(){
-  show("res");
-  $("rn").textContent=SUBJECTS[cur].name;
-  $("pc").textContent=Math.round(score/qs.length*100)+"%";
-  $("rs").textContent=`${score} / ${qs.length} correct`;
-  $("ms").innerHTML="";
-  if(missed.length){
-    const m=document.createElement("div");m.className="miss";
-    missed.forEach(q=>{const r=document.createElement("div");r.textContent=q[0]+" ";const e=document.createElement("em");e.textContent="→ "+q[1];r.appendChild(e);m.appendChild(r)});
-    $("ms").appendChild(m);
-  }else{$("ms").innerHTML='<div class="cen">Perfect run — no misses.</div>'}
-}
-function toMenu(){document.documentElement.style.removeProperty("--acc");show("menu")}
-</script>
-</body>
-</html>
+menu();
+</script></body></html>
