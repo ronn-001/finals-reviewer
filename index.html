@@ -15,10 +15,10 @@ button{font:inherit;cursor:pointer;color:var(--tx)}
 .subj{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:12px}
 .subj:hover{border-color:var(--ac)}.subj b{display:block;font-size:1.1rem}.subj span{color:var(--mu);font-size:.9rem}
 .bar{height:8px;background:var(--bd);border-radius:8px;overflow:hidden;margin:8px 0 18px}.bar i{display:block;height:100%;background:var(--ac)}
-.meta{display:flex;justify-content:space-between;color:var(--mu);font-size:.9rem}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:var(--mu);font-size:.9rem}.pill{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:2px 12px;font-weight:700;color:var(--ac)}
 .q{font-size:1.15rem;font-weight:600;margin:0 0 16px;overflow-wrap:anywhere}
 .opt{display:block;width:100%;text-align:left;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;padding:12px 14px;margin-bottom:10px;overflow-wrap:anywhere}
-.opt:hover{border-color:var(--ac)}.opt.sel{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,var(--card))}
+.opt:hover{border-color:var(--ac)}.opt.ok{border-color:var(--ok);background:var(--okb);color:var(--ok);font-weight:600}.opt.no{border-color:var(--no);background:var(--nob);color:var(--no);font-weight:600}.opt:disabled{cursor:default}.opt.sel{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,var(--card))}
 .btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:12px 20px;font-weight:600}
 .btn:disabled{opacity:.4;cursor:not-allowed}.btn.alt{background:transparent;color:var(--ac);border:1.5px solid var(--ac)}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
@@ -150,12 +150,12 @@ function start(k){
 function show(){
   const it=S.items[S.i],n=S.items.length;let pick=null;
   app.replaceChildren();
-  const m=el("div","meta");m.append(el("span",0,DATA[S.k].name.split(" – ")[0]),el("span",0,"Question "+(S.i+1)+" of "+n));
+  const m=el("div","meta");const sc=el("span","pill","Score: "+S.score+" / "+n);m.append(el("span",0,DATA[S.k].name.split(" – ")[0]),el("span",0,"Question "+(S.i+1)+" of "+n),sc);
   const bar=el("div","bar");const fill=el("i");fill.style.width=(S.i/n*100)+"%";bar.append(fill);
   const card=el("div","card");card.append(el("p","q",it.q));
   const nx=el("button","btn",S.i==n-1?"Finish":"Next");nx.disabled=true;
-  it.o.forEach(t=>{const b=el("button","opt",t);b.onclick=()=>{pick=t;card.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");nx.disabled=false};card.append(b)});
-  nx.onclick=()=>{if(pick===it.a)S.score++;else S.miss.push({q:it.q,y:pick,a:it.a});S.i++;S.i<n?show():result()};
+  it.o.forEach(t=>{const b=el("button","opt",t);b.onclick=()=>{if(pick!==null)return;pick=t;if(t===it.a){S.score++;sc.textContent="Score: "+S.score+" / "+n}card.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(x.textContent===it.a)x.classList.add("ok")});if(t!==it.a)b.classList.add("no");nx.disabled=false};card.append(b)});
+  nx.onclick=()=>{if(pick!==it.a)S.miss.push({q:it.q,y:pick,a:it.a});S.i++;S.i<n?show():result()};
   const row=el("div","row");const q=el("button","btn alt","Quit");q.onclick=()=>{if(confirm("Quit this quiz? Progress will be lost."))menu()};row.append(nx,q);
   app.append(m,bar,card,row);
 }
